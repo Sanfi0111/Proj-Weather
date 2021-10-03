@@ -1,13 +1,23 @@
 import csv
 def readDataSet():
     file = open('src\dataset1.csv')
-    csvreader = csv.reader(file)
-    rows = {}
-    i=0
+    csvreader = csv.DictReader(file)
+    dictCoorOrigin = {}
+    dictCoorDest = {}
     for row in csvreader:
-        rows[i]=row
-        i+=1
-    print(rows)
-    return rows
+        dictCoorOrigin[row['origin']] = (row['origin_latitude'],row['origin_longitude'])
+        dictCoorDest[row['destination']] = (row['destination_latitude'],row['destination_longitude'])
+    print(dictCoorOrigin)
+    print("acabe1*********************************")
+    print(dictCoorDest)
+    return (dictCoorOrigin, dictCoorDest)
     file.close()
+readDataSet()
+def splitDataset():
+    file = open('src\dataset1.csv')
+    csvreader = csv.DictReader(file)
+
+
+        
+
 
