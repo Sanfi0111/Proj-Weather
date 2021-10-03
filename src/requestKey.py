@@ -16,8 +16,9 @@ def printForm(con, weath, sens, tempmax, tempmin, hume):
     cadenaSens = "Sensación térmica:"+sens
     cadenaHume = "Humedad: "+hume
     cadenaCompleta = cadenaCiu + cadenaCli + cadenaSens + cadenaHume 
-
-def request(latlonOri, latlonDes):
+    
+# Con readDataSet() voy accediendo a 
+def request(latlonOri, latlonDes, dicDataSet):
     completCoor = latlon.split(',')
     urlComp = url+'lat='+latlon[0]+"&lon="+latlon[0]+'&appid='+key+'&lang=es&units=metric'
     request = requests.get(urlComp).json()
