@@ -1,52 +1,68 @@
 import requests
 import time
 from readerCsv import readDataSet
-#Esta es la llave para poder acceder a la API
+
+#Key to access OpenWeather API
 key ='a00bd54d69b3cdd04b682f93586e3512'
-#URL para revisar si la llave sirve bien
+#Open Weather URL 
 url = 'http://api.openweathermap.org/data/2.5/weather?'
-resp = requests.get(url).json()
-# lon = '-99.566'
-#lat = '19.337'
-#resp1= 'http://api.openweathermap.org/data/2.5/weather?lat=19.337&lon=-99.566&appid='+key
-#resp3=requests.get(resp1).json()
-#print(resp3)
+# A list that contains the weather from the origin cities of a flight
+cadenasOri = []
+# A list that contains the weather from the Destination cities of a flight
+cadenasDest = []
+# A dictionary that contains the latitude and longitude from the origin cities of a flight
+compDatOrigin = {}
+# A dictionary that contains the latitude and longitude from the destination cities of a flight
+compDatDestin = {}
+# A dictionary that works as a cache 
+cache = {}
 """ Prints a weather summary
     Weather: a list containing the weather of a city """
 def printForm(weather):
-    cadenaCiu = weather[0]+": \n"
-    cadenaCli = "Clima: "+str(weather[1])+ " Temperatura máxima: "+str(weather[2])+ ", Temperatura mínima : "+str(weather[3])+"\n"
-    cadenaSens = "Sensación térmica:"+str(weather[4])+"\n"
-    cadenaHume = "Humedad: "+str(weather[4])+"\n"
+    cadenaCiu = "Ciudad: " +weather[0]+" \n"
+    cadenaCli = "Clima: "+str(weather[1])+ " Temperatura mínima: "+str(weather[2])+ "°, Temperatura máxima : "+str(weather[3])+"° \n"
+    cadenaSens = "Sensación térmica:"+str(weather[4])+"° \n"
+    cadenaHume = "Humedad: "+str(weather[4])+"% \n"
     cadenaCompleta = cadenaCiu + cadenaCli + cadenaSens + cadenaHume 
     print(cadenaCompleta)
-    
+
 """ Request a city weather by coordenates
     dicDataSet: the complete dictionary that contains all the information from dataset1.csv
     return: The weather of the requested city """
 def request(dicDataSet):
-    compDatOrigin = {}
-    compDatDestin = {}
-    cadenasOri = []
-    cadenasDest = []
     i = 0
     for row in dicDataSet:
         urlCompIda = url+'lat=' +dicDataSet[i]['origin_latitude']+"&lon=" +dicDataSet[i]['origin_longitude']+ '&appid=' + key + '&lang=es&units=metric'
         urlCompDest = url+'lat=' +dicDataSet[i]['destination_latitude']+"&lon=" +dicDataSet[i]['destination_longitude']+ '&appid=' + key + '&lang=es&units=metric'
         try:
-            compDatOrigin = requests.get(urlCompIda).json()
-            print("Origen:")
+            compDatOrigin = requests.get(urlCompIda).json()    
+            print("Ciudad de Origen:")
+            # Accedo a cada los elementos que hay en un request y los meto en una lista con sus elementos
             cadenasOri = inList(compDatOrigin)
+            # Guardo este elemento en un cache
+            cache[cadenasOri[0]] = cadenasOri
             printForm(cadenasOri)
             compDatDestin = requests.get(urlCompDest).json()
-            print("Destino:")
+            print("Ciudad de Destino:")
+            cache[cadenasDest[0]] = cadenasDest
+            print(cache)
             cadenasDest = inList(compDatDestin)
+
             printForm(cadenasDest)
             time.sleep(1)
 
         except(KeyError):
             print("No se pudo encontrar una ciudad con las coordenadas ingresadas")
         i += 1
+def printRequests(cadenasOri, cadenasDest):
+    i= 0
+    for rows in cadenasOri:
+        print("Clima en la ciudad de Origen:")
+        printForm(cadenasOri[i])
+        print("Clima en la ciudad de Destino")
+        printForm(cadenasDest[i])
+        i += 1
+
 
 """ Add elements from a request into a List 
     dicRequests: A dictionary containing the requests"""
