@@ -1,7 +1,7 @@
 import requests
 import time
 from readerCsv import readerCsv
-class requestKey:
+class RequestKey:
     #Key to access OpenWeather API
     key ='a00bd54d69b3cdd04b682f93586e3512'
     #Open Weather URL 
@@ -68,26 +68,25 @@ class requestKey:
             try:
                 m = 0
                 # Primer caso, checamos el clima en la ciudad de origen
-                if(containsKeyBool(self.cache, latLonORi) == True):
+                if(self.containsKeyBool(self.cache, latLonORi) == True):
                     # Tomamos la lista que tiene los valores del clima de una ciudad
-                    keyList = containsKey(self.cache, latLonORi)
-                    printForm(keyList)
+                    keyList = self.containsKey(self.cache, latLonORi)
+                    self.printForm(keyList)
                 else:
                     compDatOrigin = requests.get(urlCompIda).json()    
-                    cadenasOri = inList(compDatOrigin)
-                    cache[latLonORi] = cadenasOri
-                    printForm(cadenasOri)
+                    cadenasOri = self.inList(compDatOrigin)
+                    self.cache[latLonORi] = cadenasOri
+                    self.printForm(cadenasOri)
                     m +=1
-                if(containsKeyBool(cache, latLonDes)):
-                    keyList1 = containsKey(cache, latLonDes)
-                    printForm(keyList1)
+                if(self.containsKeyBool(self.cache, latLonDes)):
+                    keyList1 = self.containsKey(self.cache, latLonDes)
+                    self.printForm(keyList1)
                 else:
-                    print("no entre destino")
                     compDatDestin = requests.get(urlCompDest).json()
                     print("Ciudad de Destino:")
-                    cadenasDest = inList(compDatDestin)
-                    cache[latLonDes] = cadenasDest
-                    printForm(cadenasDest)
+                    cadenasDest = self.inList(compDatDestin)
+                    self.cache[latLonDes] = cadenasDest
+                    self.printForm(cadenasDest)
                     m += 1
                 if(m > 1):
                     time.sleep(1)
@@ -112,10 +111,9 @@ class requestKey:
         cadenas.append(cadenaSensOr)
         return cadenas 
 
-    if __name__ == "__main__":
-        reques1t = requestKey
-        csv = readerCsv
-        reques1t.request(csv.readDataSet('src\dataset1.csv'))
+reques1t = RequestKey()   
+csv = readerCsv
+reques1t.request(csv.readDataSet('src\dataset1.csv'))
         
 
 
