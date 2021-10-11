@@ -1,16 +1,18 @@
 import unittest
 from sys import path
 path.append("../..")
-class Test1(unittest.TestCase):
+from src.readerCsv import ReaderCsv
+class test1(unittest.TestCase):
     """ Test that checks all the lines in dataSet1.csv.
     """
-    def test_readDataSet():
+    def test_readDataSet(self):
         # assertTrue asegura que un valor es real
         # assertFalse asegura que un valor es falso
         csvReaders = {}
         csv = readerCsv()
         csvReaders = csv.readDataSet() 
-        assertTrue(assertEqual(len(csvReaders, 3000)))
+        print(len(csvReaders))
+        self.assertEqual(len(csvReaders), 3000)
         
 
 if __name__ == "__main__":
