@@ -1,13 +1,17 @@
 import unittest
-import readerCsv
-import requestKey
+from sys import path
+path.append("../..")
 class Test1(unittest.TestCase):
-
-    def findReadDataSetElement(lat, lon):
+    """ Test that checks all the lines in dataSet1.csv.
+    """
+    def test_readDataSet():
         # assertTrue asegura que un valor es real
         # assertFalse asegura que un valor es falso
-        result  = 
+        csvReaders = {}
+        csv = readerCsv()
+        csvReaders = csv.readDataSet() 
+        assertTrue(assertEqual(len(csvReaders, 3000)))
+        
 
-    def testLatLongNotExists():
-        return
-    
+if __name__ == "__main__":
+    unittest.main()
