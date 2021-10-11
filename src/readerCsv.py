@@ -28,9 +28,3 @@ class readerCsv:
             rows[i] = row
             i += 1
         return rows
-
-
-
-        
-
-
