@@ -1,6 +1,6 @@
 import requests
 import time
-from readerCsv import readDataSet
+from readerCsv import readerCsv
 class requestKey:
     #Key to access OpenWeather API
     key ='a00bd54d69b3cdd04b682f93586e3512'
@@ -18,7 +18,7 @@ class requestKey:
     cache = {}
     """ Prints a weather summary
         Weather: a list containing the weather of a city """
-    def printForm(weather):
+    def printForm(self,weather):
         cadenaCiu = "Ciudad: " +weather[0]+" \n"
         cadenaCli = "Clima: "+str(weather[1])+ " Temperatura mínima: "+str(weather[2])+ "°, Temperatura máxima : "+str(weather[3])+"° \n"
         cadenaSens = "Sensación térmica:"+str(weather[4])+"° \n"
@@ -31,7 +31,7 @@ class requestKey:
         dicKey: the key
         return: a Boolean indicating if the key is contained in the dictionary
     """
-    def containsKeyBool(dicCache, dicKey):
+    def containsKeyBool(self, dicCache, dicKey):
         i = 0
         for key in dicCache:
             if(key == dicKey):
@@ -45,7 +45,7 @@ class requestKey:
         dicKey: the key
         return: the element with the key
     """
-    def containsKey(dicCache, dicKey):
+    def containsKey(self, dicCache, dicKey):
         i = 0
         keyList = []
         for key in dicCache:
@@ -58,19 +58,19 @@ class requestKey:
     """ Request a city weather by coordenates
         dicDataSet: the complete dictionary that contains all the information from dataset1.csv
         return: The weather of the requested city """
-    def request(dicDataSet):
+    def request(self,dicDataSet):
         i = 0
         for row in dicDataSet:
-            urlCompIda = url+'lat=' +dicDataSet[i]['origin_latitude']+"&lon=" +dicDataSet[i]['origin_longitude']+ '&appid=' + key + '&lang=es&units=metric'
-            urlCompDest = url+'lat=' +dicDataSet[i]['destination_latitude']+"&lon=" +dicDataSet[i]['destination_longitude']+ '&appid=' + key + '&lang=es&units=metric'
+            urlCompIda = self.url+'lat=' +dicDataSet[i]['origin_latitude']+"&lon=" +dicDataSet[i]['origin_longitude']+ '&appid=' + self.key + '&lang=es&units=metric'
+            urlCompDest = self.url+'lat=' +dicDataSet[i]['destination_latitude']+"&lon=" +dicDataSet[i]['destination_longitude']+ '&appid=' + self.key + '&lang=es&units=metric'
             latLonORi =  dicDataSet[i]['origin_latitude']+dicDataSet[i]['origin_longitude']
             latLonDes = dicDataSet[i]['destination_latitude']+dicDataSet[i]['destination_longitude']
             try:
                 m = 0
                 # Primer caso, checamos el clima en la ciudad de origen
-                if(containsKeyBool(cache, latLonORi) == True):
+                if(containsKeyBool(self.cache, latLonORi) == True):
                     # Tomamos la lista que tiene los valores del clima de una ciudad
-                    keyList = containsKey(cache, latLonORi)
+                    keyList = containsKey(self.cache, latLonORi)
                     printForm(keyList)
                 else:
                     compDatOrigin = requests.get(urlCompIda).json()    
@@ -96,7 +96,7 @@ class requestKey:
             i += 1
     """ Add elements from a request into a List 
         dicRequests: A dictionary containing the requests"""
-    def inList(dicRequests):
+    def inList(self,dicRequests):
         cadenas = []
         cadenaciuOr = (dicRequests['name'])
         cadenas.append(cadenaciuOr)
@@ -112,7 +112,10 @@ class requestKey:
         cadenas.append(cadenaSensOr)
         return cadenas 
 
-
-    request(readDataSet('src\dataset1.csv'))
+    if __name__ == "__main__":
+        reques1t = requestKey
+        csv = readerCsv
+        reques1t.request(csv.readDataSet('src\dataset1.csv'))
+        
 
 
