@@ -8,7 +8,7 @@ class readerCsv:
         file1: the file with the information to read
         Returns :
          a dictionary with information of all the flights in dataset1.csv"""
-    def readDataSet(self,file1):
+    def readDataSet(self, file1):
         file = open(file1)
         csvreader = csv.DictReader(file)
         rows = {}
