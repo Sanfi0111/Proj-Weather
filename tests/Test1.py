@@ -1,9 +1,10 @@
 import unittest
-from sys import path
-path.append("../..")
-from readerCsv import readerCsv
+import sys
+from src import readerCsv
 class test1(unittest.TestCase):
     """ Test that checks all the lines in dataSet1.csv.
+        Returns :
+        True if both elements are the same
     """
     def test_readElementsDataSet(self):
         # assertTrue asegura que un valor es real
@@ -14,7 +15,9 @@ class test1(unittest.TestCase):
         print(len(csvReaders))
         self.assertEqual(len(csvReaders), 3000)
     
-    " Test that verifies the correct performance of readDataSet()"
+    """ Test that verifies the correct performance of readDataSet()
+        True if both elements are the same
+    """
     def testReadDataSet(self):
         dicTes = {}
         dicTes ={0:{'State':'Colorado','Team': 'Rockies'},
