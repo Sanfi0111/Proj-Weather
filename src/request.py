@@ -4,8 +4,8 @@ from readerCsv import readerCsv
 
 class Request:
 
-#Key to access OpenWeather API
-    key ='a00bd54d69b3cdd04b682f93586e3512'
+    #Key to access OpenWeather API, now its a private variable.
+    key_ ='a00bd54d69b3cdd04b682f93586e3512'
     #Open Weather URL 
     url = 'http://api.openweathermap.org/data/2.5/weather?'
     # A list that contains the weather from the origin cities of a flight
@@ -116,8 +116,8 @@ class Request:
     def request(self,dicDataSet):
         i = 0
         for row in dicDataSet:
-            urlCompIda = self.url+'lat=' +dicDataSet[i]['origin_latitude']+"&lon=" +dicDataSet[i]['origin_longitude']+ '&appid=' + self.key + '&lang=es&units=metric'
-            urlCompDest = self.url+'lat=' +dicDataSet[i]['destination_latitude']+"&lon=" +dicDataSet[i]['destination_longitude']+ '&appid=' + self.key + '&lang=es&units=metric'
+            urlCompIda = self.url+'lat=' +dicDataSet[i]['origin_latitude']+"&lon=" +dicDataSet[i]['origin_longitude']+ '&appid=' + self.key_ + '&lang=es&units=metric'
+            urlCompDest = self.url+'lat=' +dicDataSet[i]['destination_latitude']+"&lon=" +dicDataSet[i]['destination_longitude']+ '&appid=' + self.key_ + '&lang=es&units=metric'
             latLonORi =  dicDataSet[i]['origin_latitude']+dicDataSet[i]['origin_longitude']
             latLonDes = dicDataSet[i]['destination_latitude']+dicDataSet[i]['destination_longitude']
             try:
